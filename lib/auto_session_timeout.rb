@@ -13,8 +13,8 @@ module AutoSessionTimeout
         else
           unless c.request.original_url.start_with?(c.send(:active_url))
             offset = seconds || (current_user.respond_to?(:auto_timeout) ? current_user.auto_timeout : nil)
-            signing_in? = sign_in_path ? !(c.env["PATH_INFO"] == sign_in_path && c.env["REQUEST_METHOD"] == "POST") : true
-            c.session[:auto_session_expires_at] = Time.now + offset if offset && offset > 0 && signing_in?
+            signing_in = sign_in_path ? !(c.env["PATH_INFO"] == sign_in_path && c.env["REQUEST_METHOD"] == "POST") : true
+            c.session[:auto_session_expires_at] = Time.now + offset if offset && offset > 0 && signing_in
           end
         end
       end
